@@ -8,7 +8,7 @@
 import SwiftUI
 
 class BoardViewModel: ObservableObject {
-	@Published var boardContents: [[CellContents]]
+	@Published var boardContents: [[Player]]
 	@Published var canPlay: Bool
 	@Published var activePlayer: Player
 	var moves: [Int]
@@ -28,9 +28,9 @@ class BoardViewModel: ObservableObject {
 	}
 	
 	private func initializeBoard(width: Int, height: Int) {
-		var board: [[CellContents]] = []
+		var board: [[Player]] = []
 		for _ in 0..<height {
-			let row = Array(repeating: CellContents.empty, count: 4)
+			let row = Array(repeating: Player.empty, count: 4)
 			board.append(row)
 		}
 		self.boardContents = board
@@ -79,7 +79,7 @@ class BoardViewModel: ObservableObject {
 		var i = boardContents.count - 1
 		while i >= 0 {
 			if boardContents[i][column] == .empty {
-				boardContents[i][column] = player == .player1 ? .blue : .red
+				boardContents[i][column] = player
 				didPlay = true
 				self.moves.append(column)
 				self.checkForWinner()
@@ -130,7 +130,7 @@ class BoardViewModel: ObservableObject {
 		return topRow.allSatisfy({$0 != .empty})
 	}
 	
-	func rowHasAWinner() -> CellContents? {
+	func rowHasAWinner() -> Player? {
 		for row in boardContents {
 			if let winner = checkIfTeamWins(row) {
 				return winner
@@ -139,7 +139,7 @@ class BoardViewModel: ObservableObject {
 		return nil
 	}
 
-	func columnHasAWinner() -> CellContents? {
+	func columnHasAWinner() -> Player? {
 		for i in 0..<boardContents.count {
 			let column = boardContents.compactMap( {$0[i]})
 			if let winner = checkIfTeamWins(column) {
@@ -149,9 +149,9 @@ class BoardViewModel: ObservableObject {
 		return nil
 	}
 	
-	func diagonalHasAWinner() -> CellContents? {
-		var topLeft: [CellContents] = []
-		var bottomRight: [CellContents] = []
+	func diagonalHasAWinner() -> Player? {
+		var topLeft: [Player] = []
+		var bottomRight: [Player] = []
 		for i in 0..<boardContents.count {
 			topLeft.append(boardContents[i][i])
 			bottomRight.append(boardContents[boardContents.count - 1 - i][i])
@@ -166,16 +166,16 @@ class BoardViewModel: ObservableObject {
 		return nil
 	}
 	
-	func endGame(_ winner: CellContents?) {
+	func endGame(_ winner: Player?) {
 		//Disable board
 		self.canPlay = false
 		//TODO: handlo draw (nil), or winner, and give user option to reset
 		let alert = AlertController.shared
 		
 		if let winner = winner {
-			if winner == .blue {
+			if winner == .player1 {
 				alert.title = "Congrats!"
-				alert.message = "You won! Do you want to see if you can do that again?"
+				alert.message = "You won! Can you do that again?"
 				
 			}
 			else {
@@ -195,15 +195,14 @@ class BoardViewModel: ObservableObject {
 		DispatchQueue.main.async {
 			alert.showAlert = true
 		}
-		print("WINNER!: \(winner)")
 	}
 	
-	func checkIfTeamWins(_ array: [CellContents]) -> CellContents? {
-		if array.allSatisfy({$0 == .blue}) {
-			return .blue
+	func checkIfTeamWins(_ array: [Player]) -> Player? {
+		if array.allSatisfy({$0 == .player1}) {
+			return .player1
 		}
-		if array.allSatisfy({$0 == .red}) {
-			return .red
+		if array.allSatisfy({$0 == .computer}) {
+			return .computer
 		}
 		return nil
 	}

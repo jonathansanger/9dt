@@ -7,12 +7,7 @@
 
 import Foundation
 
-enum CellContents: String {
-	//Contents could actually be player or computer, but type erased?
-	case /*unknown,*/ empty, red, blue
-}
-
 enum Player: Int {
-	case player1
-	case computer
+	//Contents could actually be player or computer, but type erased?
+	case empty, player1, computer
 }

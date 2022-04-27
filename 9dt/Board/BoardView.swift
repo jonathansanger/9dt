@@ -10,13 +10,13 @@ import SwiftUI
 struct BoardView: View {
 	@ObservedObject var viewModel: BoardViewModel
 	
-	func cellColor(_ cellContents: CellContents) -> Color {
-		switch cellContents {
+	func cellColor(_ player: Player) -> Color {
+		switch player {
 		case .empty:
 			return .yellow
-		case .blue:
+		case .player1:
 			return .blue
-		case .red:
+		case .computer:
 			return .red
 		}
 	}
@@ -28,11 +28,7 @@ struct BoardView: View {
 	let kCircleSize: CGFloat = 50
 	var body: some View {
 		VStack {
-			Button(action: {
-				viewModel.reset()
-			}) {
-				Text("Reset the board")
-			}.opacity(viewModel.canPlay ? 0 : 1)
+
 			HStack {
 				Text("Active player: \(viewModel.activePlayer == .player1 ? "player1" : "computer")")
 					 Circle().fill(viewModel.activePlayer == .player1 ? .blue : .red).frame(width: 30, height: 30)
@@ -58,6 +54,12 @@ struct BoardView: View {
 					}
 				}
 			}
+			Button(action: {
+				viewModel.reset()
+			}) {
+				Text("Reset the board")
+			}.opacity(viewModel.canPlay ? 0 : 1)
+			Spacer()
 		}
 	}
 }
