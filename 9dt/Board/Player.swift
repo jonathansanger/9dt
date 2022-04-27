@@ -8,6 +8,5 @@
 import Foundation
 
 enum Player: Int {
-	//Contents could actually be player or computer, but type erased?
 	case empty, player1, computer
 }

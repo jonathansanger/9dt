@@ -44,10 +44,11 @@ class BoardViewModel: ObservableObject {
 		self.boardContents = board
 	}
 	
-	func handleError(_ errorMessage: String) {
+	func handleError(_ errorMessage: String? = nil) {
+		let message = errorMessage ?? "Your opponent got a little confused. We need to reset the board."
 		let alert = AlertController.shared
 		alert.title = "Something's not right"
-		alert.message = errorMessage
+		alert.message = message
 		alert.primaryButton = .default(Text("Reset")) {
 			self.reset()
 			alert.reset()
@@ -74,15 +75,15 @@ class BoardViewModel: ObservableObject {
 				return
 			}
 			guard urlResponse.statusCode == 200 else {
-				self.handleError("Your opponent got a little confused. We need to reset the board.")
+				self.handleError()
 				return
 			}
 			guard let data = data, let json = try? JSONSerialization.jsonObject(with: data) else {
-				self.handleError("Your opponent got a little confused. We need to reset the board.")
+				self.handleError()
 				return
 			}
 			guard let movesArray = json as? [Int], let computerMove = movesArray.last else {
-				self.handleError("Your opponent got a little confused. We need to reset the board.")
+				self.handleError()
 				return
 			}
 			DispatchQueue.main.async {
