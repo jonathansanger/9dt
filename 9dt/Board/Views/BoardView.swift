@@ -50,7 +50,7 @@ struct BoardView: View {
 								.background(Color.gray.cornerRadius(10).opacity(0.3))
 						}
 					}
-					ChipBoard(boardContents: viewModel.mockBoardContents(), kCircleSize: 50, onColumnTapped: {_ in})
+					ChipBoard(boardContents: viewModel.mockFullBoardDiagonalWin(), kCircleSize: 50, onColumnTapped: {_ in})
 						.disabled(true)
 						.opacity(0.6)
 						.padding(.vertical, 20)

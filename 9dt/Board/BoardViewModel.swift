@@ -59,7 +59,6 @@ class BoardViewModel: ObservableObject {
 	}
 	
 	func getComputerPlay() {
-//		let moves = [10, 2, 4]
 		let baseUrl = URL(string: "https://w0ayb2ph1k.execute-api.us-west-2.amazonaws.com/production")!
 		let stringMoves: String = "[\(moves.compactMap({ String($0)}).joined(separator: ","))]"
 		let queryItem = URLQueryItem(name: "moves", value: stringMoves)
@@ -196,7 +195,6 @@ class BoardViewModel: ObservableObject {
 	func endGame(_ winner: Player?) {
 		//Disable board
 		self.canPlay = false
-		//TODO: handlo draw (nil), or winner, and give user option to reset
 		let alert = AlertController.shared
 		
 		if let winner = winner {
@@ -237,10 +235,19 @@ class BoardViewModel: ObservableObject {
 		return nil
 	}
 	
-	func mockBoardContents() -> [[Player]] {
+	func mockFullBoardDiagonalWin() -> [[Player]] {
 		let row1: [Player] = [.player1, .computer, .player1, .player1]
 		let row2: [Player] = [.computer, .computer, .player1, .computer]
 		let row3: [Player] = [.player1, .player1, .player1, .computer]
+		let row4: [Player] = [.player1, .computer, .computer, .computer]
+		let board = [row1, row2, row3, row4]
+		return board
+	}
+	
+	func mockFullBoardRowWin() -> [[Player]] {
+		let row1: [Player] = [.player1, .player1, .player1, .player1]
+		let row2: [Player] = [.computer, .computer, .player1, .computer]
+		let row3: [Player] = [.player1, .computer, .player1, .computer]
 		let row4: [Player] = [.player1, .computer, .computer, .computer]
 		let board = [row1, row2, row3, row4]
 		return board
