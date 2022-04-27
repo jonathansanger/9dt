@@ -12,7 +12,6 @@ struct ContentView: View {
 	@ObservedObject var alertController = AlertController.shared
 	
 	var body: some View {
-		//TODO: first screen of who goes first: Modal? Or new screen to choose
 		VStack {
 			BoardView(viewModel: viewModel)
 		}

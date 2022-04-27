@@ -11,6 +11,7 @@ class BoardViewModel: ObservableObject {
 	@Published var boardContents: [[Player]]
 	@Published var canPlay: Bool
 	@Published var activePlayer: Player
+	@Published var showWelcome: Bool
 	var moves: [Int]
 	let boardWidth: Int
 	let boardHeight: Int
@@ -21,6 +22,7 @@ class BoardViewModel: ObservableObject {
 		self.boardContents = [[]]
 		self.canPlay = true
 		self.activePlayer = activePlayer
+		self.showWelcome = true
 		self.moves = []
 		self.initializeBoard()
 	}
@@ -29,13 +31,14 @@ class BoardViewModel: ObservableObject {
 		self.initializeBoard()
 		self.canPlay = true
 		self.activePlayer = .player1
+		self.showWelcome = true
 		self.moves = []
 	}
 	
 	private func initializeBoard() {
 		var board: [[Player]] = []
 		for _ in 0..<boardHeight {
-			let row = Array(repeating: Player.empty, count: 4)
+			let row = Array(repeating: Player.empty, count: boardWidth)
 			board.append(row)
 		}
 		self.boardContents = board
@@ -47,9 +50,6 @@ class BoardViewModel: ObservableObject {
 		alert.message = errorMessage
 		alert.primaryButton = .default(Text("Reset")) {
 			self.reset()
-			alert.reset()
-		}
-		alert.secondaryButton = .cancel() {
 			alert.reset()
 		}
 		
@@ -75,16 +75,15 @@ class BoardViewModel: ObservableObject {
 				return
 			}
 			guard urlResponse.statusCode == 200 else {
-				self.handleError("Your opponent got a little confused. Reset the game to play again.")
-				print("some status code error")
+				self.handleError("Your opponent got a little confused. We need to reset the board.")
 				return
 			}
 			guard let data = data, let json = try? JSONSerialization.jsonObject(with: data) else {
-				self.handleError("Your opponent got a little confused. Reset the game to play again.")
+				self.handleError("Your opponent got a little confused. We need to reset the board.")
 				return
 			}
 			guard let movesArray = json as? [Int], let computerMove = movesArray.last else {
-				self.handleError("Your opponent got a little confused. Reset the game to play again.")
+				self.handleError("Your opponent got a little confused. We need to reset the board.")
 				return
 			}
 			DispatchQueue.main.async {
@@ -236,5 +235,14 @@ class BoardViewModel: ObservableObject {
 			return .computer
 		}
 		return nil
+	}
+	
+	func mockBoardContents() -> [[Player]] {
+		let row1: [Player] = [.player1, .computer, .player1, .player1]
+		let row2: [Player] = [.computer, .computer, .player1, .computer]
+		let row3: [Player] = [.player1, .player1, .player1, .computer]
+		let row4: [Player] = [.player1, .computer, .computer, .computer]
+		let board = [row1, row2, row3, row4]
+		return board
 	}
 }

@@ -16,8 +16,9 @@
 		EC2692652818F379002964A6 /* _dtUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2692642818F379002964A6 /* _dtUITestsLaunchTests.swift */; };
 		EC2692742818F3BF002964A6 /* BoardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2692732818F3BF002964A6 /* BoardViewModel.swift */; };
 		EC2692762818F3D2002964A6 /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2692752818F3D2002964A6 /* BoardView.swift */; };
-		EC2692782818F3FA002964A6 /* Cells.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2692772818F3FA002964A6 /* Cells.swift */; };
+		EC2692782818F3FA002964A6 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC2692772818F3FA002964A6 /* Player.swift */; };
 		EC26927A28190BB2002964A6 /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC26927928190BB2002964A6 /* AlertController.swift */; };
+		EC26927D2819A2AF002964A6 /* ChipBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC26927C2819A2AF002964A6 /* ChipBoard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,8 +51,9 @@
 		EC2692642818F379002964A6 /* _dtUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _dtUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		EC2692732818F3BF002964A6 /* BoardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardViewModel.swift; sourceTree = "<group>"; };
 		EC2692752818F3D2002964A6 /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardView.swift; sourceTree = "<group>"; };
-		EC2692772818F3FA002964A6 /* Cells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cells.swift; sourceTree = "<group>"; };
+		EC2692772818F3FA002964A6 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		EC26927928190BB2002964A6 /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
+		EC26927C2819A2AF002964A6 /* ChipBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChipBoard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,7 +106,6 @@
 			children = (
 				EC2692472818F377002964A6 /* _dtApp.swift */,
 				EC26927928190BB2002964A6 /* AlertController.swift */,
-				EC2692492818F377002964A6 /* ContentView.swift */,
 				EC2692722818F3B5002964A6 /* Board */,
 				EC26924B2818F378002964A6 /* Assets.xcassets */,
 				EC26924D2818F378002964A6 /* Preview Content */,
@@ -140,11 +141,21 @@
 		EC2692722818F3B5002964A6 /* Board */ = {
 			isa = PBXGroup;
 			children = (
+				EC26927B2819A2A0002964A6 /* Views */,
 				EC2692732818F3BF002964A6 /* BoardViewModel.swift */,
-				EC2692752818F3D2002964A6 /* BoardView.swift */,
-				EC2692772818F3FA002964A6 /* Cells.swift */,
+				EC2692772818F3FA002964A6 /* Player.swift */,
 			);
 			path = Board;
+			sourceTree = "<group>";
+		};
+		EC26927B2819A2A0002964A6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				EC2692492818F377002964A6 /* ContentView.swift */,
+				EC2692752818F3D2002964A6 /* BoardView.swift */,
+				EC26927C2819A2AF002964A6 /* ChipBoard.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -281,8 +292,9 @@
 				EC2692762818F3D2002964A6 /* BoardView.swift in Sources */,
 				EC2692482818F377002964A6 /* _dtApp.swift in Sources */,
 				EC2692742818F3BF002964A6 /* BoardViewModel.swift in Sources */,
+				EC26927D2819A2AF002964A6 /* ChipBoard.swift in Sources */,
 				EC26927A28190BB2002964A6 /* AlertController.swift in Sources */,
-				EC2692782818F3FA002964A6 /* Cells.swift in Sources */,
+				EC2692782818F3FA002964A6 /* Player.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
