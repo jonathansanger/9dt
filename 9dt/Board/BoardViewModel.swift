@@ -12,30 +12,51 @@ class BoardViewModel: ObservableObject {
 	@Published var canPlay: Bool
 	@Published var activePlayer: Player
 	var moves: [Int]
-	init(_ boardWidth: Int = 4, boardHeight: Int = 4, activePlayer: Player = .player1) {
+	let boardWidth: Int
+	let boardHeight: Int
+	
+	init(boardWidth: Int = 4, boardHeight: Int = 4, activePlayer: Player = .player1) {
+		self.boardWidth = boardWidth
+		self.boardHeight = boardHeight
 		self.boardContents = [[]]
 		self.canPlay = true
 		self.activePlayer = activePlayer
 		self.moves = []
-		self.initializeBoard(width: boardWidth, height: boardWidth)
+		self.initializeBoard()
 	}
 	
 	func reset() {
-		self.initializeBoard(width: 4, height: 4)
+		self.initializeBoard()
 		self.canPlay = true
 		self.activePlayer = .player1
 		self.moves = []
 	}
 	
-	private func initializeBoard(width: Int, height: Int) {
+	private func initializeBoard() {
 		var board: [[Player]] = []
-		for _ in 0..<height {
+		for _ in 0..<boardHeight {
 			let row = Array(repeating: Player.empty, count: 4)
 			board.append(row)
 		}
 		self.boardContents = board
 	}
 	
+	func handleError(_ errorMessage: String) {
+		let alert = AlertController.shared
+		alert.title = "Something's not right"
+		alert.message = errorMessage
+		alert.primaryButton = .default(Text("Reset")) {
+			self.reset()
+			alert.reset()
+		}
+		alert.secondaryButton = .cancel() {
+			alert.reset()
+		}
+		
+		DispatchQueue.main.async {
+			alert.showAlert = true
+		}
+	}
 	
 	func getComputerPlay() {
 //		let moves = [10, 2, 4]
@@ -54,17 +75,16 @@ class BoardViewModel: ObservableObject {
 				return
 			}
 			guard urlResponse.statusCode == 200 else {
-				//TODO: throw error!
+				self.handleError("Your opponent got a little confused. Reset the game to play again.")
 				print("some status code error")
 				return
 			}
 			guard let data = data, let json = try? JSONSerialization.jsonObject(with: data) else {
-				print("NOT JSON?!")
+				self.handleError("Your opponent got a little confused. Reset the game to play again.")
 				return
 			}
 			guard let movesArray = json as? [Int], let computerMove = movesArray.last else {
-				print("some other error")
-				//Error
+				self.handleError("Your opponent got a little confused. Reset the game to play again.")
 				return
 			}
 			DispatchQueue.main.async {
@@ -88,7 +108,15 @@ class BoardViewModel: ObservableObject {
 			i -= 1
 		}
 		if !didPlay {
-			print("ERRORERERSSSS")
+			let alert = AlertController.shared
+			alert.title = "Colum full"
+			alert.message = "Try a column with empty space."
+			alert.primaryButton = .cancel(Text("Dismiss")) {
+				alert.reset()
+			}
+			DispatchQueue.main.async {
+				alert.showAlert = true
+			}
 		}
 	}
 	
@@ -189,9 +217,12 @@ class BoardViewModel: ObservableObject {
 		}
 		
 		alert.primaryButton = .default(Text("Play again")) {
+			alert.reset()
 			self.reset()
 		}
-		alert.secondaryButton = .cancel()
+		alert.secondaryButton = .cancel() {
+			alert.reset()
+		}
 		DispatchQueue.main.async {
 			alert.showAlert = true
 		}

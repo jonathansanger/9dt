@@ -28,7 +28,8 @@ struct BoardView: View {
 	let kCircleSize: CGFloat = 50
 	var body: some View {
 		VStack {
-
+			Text("9dt").font(.largeTitle)
+				.padding(.bottom, 20)
 			HStack {
 				Text("Active player: \(viewModel.activePlayer == .player1 ? "player1" : "computer")")
 					 Circle().fill(viewModel.activePlayer == .player1 ? .blue : .red).frame(width: 30, height: 30)
